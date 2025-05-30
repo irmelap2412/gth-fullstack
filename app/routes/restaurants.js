@@ -1,16 +1,16 @@
 import express from 'express'
 import { getRestaurant, getRestaurants, createRestaurant, editRestaurant, deleteRestaurant } from '../controllers/restaurants.js';
 
-const router = express.Router();
+const restaurantRouter = express.Router();
 
-router.get('/', getRestaurants);
+restaurantRouter.get('/', getRestaurants);
 
-router.get('/:id', getRestaurant);
+restaurantRouter.get('/:id', getRestaurant);
 
-router.post('/', createRestaurant);
+restaurantRouter.post('/', createRestaurant);
 
-router.put('/:id', editRestaurant);
+restaurantRouter.put('/:id', editRestaurant);
 
-router.delete('/:id', deleteRestaurant);
+restaurantRouter.delete('/:id', deleteRestaurant);
 
-export default router;
+export default restaurantRouter;

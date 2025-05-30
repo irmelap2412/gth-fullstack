@@ -14,17 +14,38 @@ const restaurants = [
     }
 ];
 
-export const getRestaurants = (req, res) => {
-    let filteredResturants = restaurants;
+export const getRestaurants = (req, res, next) => {
+  try {
+    let filteredRestaurants = restaurants
 
     if (req.query.name) {
-        filteredResturants = filteredResturants.filter(r => r.name.toLowerCase().includes(req.query.name));
-    }
-    if (req.query.rate) {
-        filteredResturants = filteredResturants.filter(r => r.rate > req.query.rate);
+      filteredRestaurants = filteredRestaurants.filter((r) =>
+        r.name.toLowerCase().includes(req.query.name.toLowerCase()),
+      )
     }
 
-    res.json(filteredResturants);
+    if (req.query.rate) {
+      const rateValue = Number.parseFloat(req.query.rate)
+      if (isNaN(rateValue)) {
+        return next({
+          status: 400,
+          msg: "Rate must be a valid number",
+        })
+      }
+      filteredRestaurants = filteredRestaurants.filter((r) => r.rate > rateValue)
+    }
+
+
+    if (req.query.city) {
+      filteredRestaurants = filteredRestaurants.filter(
+        (r) => r.location && r.location.city && r.location.city.toLowerCase() === req.query.city.toLowerCase(),
+      )
+    }
+
+    res.json(filteredRestaurants)
+  } catch (error) {
+    next(error)
+  }
 };
 
 export const getRestaurant = (req, res, next) => {
