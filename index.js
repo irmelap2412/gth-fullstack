@@ -1,10 +1,15 @@
 import express from 'express';
-import restaurants from './app/routes/restaurants.js'
+import restaurants from './app/routes/restaurants.js';
 import logger from './app/middleware/logger.js';
-import { errorHandler, notFoundHandler } from "./app/middleware/errorHandler.js"
+import dotenv from 'dotenv'
+import { errorHandler, notFoundHandler } from './app/middleware/errorHandler.js';
+
 
 const port = process.env.PORT || 8080;
 const app = express();
+
+dotenv.config();
+
 
 app.use(express.json());
 app.use(logger);
